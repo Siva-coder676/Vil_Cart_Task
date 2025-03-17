@@ -16,7 +16,6 @@ class LoginViewModel extends BaseViewModel {
   final _loginService = locator<LoginService>();
   final _localService = locator<LocalService>();
   final _navigationService = locator<NavigationService>();
- 
 
   TextEditingController phoneNumController = TextEditingController();
   late TextEditingController passWordController = TextEditingController();

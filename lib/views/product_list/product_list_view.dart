@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vil_cart_task/core/models/product_list_data.dart';
+import 'package:vil_cart_task/widgets/load_more.dart';
 import 'package:vil_cart_task/widgets/product_detail_page.dart';
 import 'product_list_view_model.dart';
 
@@ -81,30 +82,53 @@ class _ProductListViewState extends State<ProductListView> {
               ),
               viewModel.getProductDetaildata.isEmpty
                   ? Text("No Products Found")
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: viewModel.getProductDetaildata.length,
-                        itemBuilder: (context, index) {
-                          var products = viewModel.getProductDetaildata[index];
+                  : Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.57,
+                          child: ListView.builder(
+                            itemCount: viewModel.getProductDetaildata.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var products =
+                                  viewModel.getProductDetaildata[index];
 
-                          return ListTile(
-                            title: Text(
-                              products.SkuUpcEan! ?? "-",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(products.productName!),
-                            trailing: Icon(Icons.arrow_forward_ios,
-                                size: 16, color: Colors.grey),
-                            onTap: () {
-                              viewModel.navigationService
-                                  .navigateWithTransition(ProductDetailPage(
-                                    items: products,
-                                  ),
-                                      transition: "fade");
+                              return ListTile(
+                                title: Text(
+                                  products.SkuUpcEan! ?? "-",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(products.productName!),
+                                trailing: Icon(Icons.arrow_forward_ios,
+                                    size: 16, color: Colors.grey),
+                                onTap: () {
+                                  viewModel.navigationService
+                                      .navigateWithTransition(
+                                          ProductDetailPage(
+                                            items: products,
+                                          ),
+                                          transition: "fade");
+                                },
+                              );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+
+                        viewModel.shouldShowLoadMore
+                            ? LoadMore(
+                                text: "Load more Items",
+                                textOnLoading: "Loading more Items ...",
+                                loading: viewModel.loadingMore,
+                                onClick: () {
+                                  viewModel.loadMore();
+                                },
+                              )
+                            : Text("No more data available")
+
+                        // SizedBox(
+                        //   height: 15,
+                        // )
+                      ],
                     ),
             ],
           ),

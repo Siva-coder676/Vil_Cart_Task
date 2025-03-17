@@ -26,11 +26,10 @@ class ProductService {
     return null;
   }
 
-  Future<ProductResponse?>? getProductDetailData(int customerId) async {
+  Future<ProductResponse?>? getProductDetailData(int customerId,ProductPayload productPayload) async {
     int wareHouseId = await _localService.getWareHouseId();
     try {
-      ProductPayload productPayload =
-          ProductPayload(pageNumber: 1, pageLimit: 10);
+     
       ProductResponse productResponse = await MyApi()
           .getClientOne()!
           .getProductDetailData(

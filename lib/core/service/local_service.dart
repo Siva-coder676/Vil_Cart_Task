@@ -6,6 +6,7 @@ class LocalService {
 
   static const String TOKEN = "token";
   static const String WAREHOUSE_ID = 'warehouse_id';
+  static const String CUSTOMER_ID = 'customer_id';
 
   saveToken(token) async {
     return await preferences!.setString(TOKEN, token);
@@ -21,5 +22,13 @@ class LocalService {
 
   getWareHouseId() async {
     return await preferences!.getInt(WAREHOUSE_ID);
+  }
+
+  saveCustomerId(int id) async {
+    return await preferences!.setInt(CUSTOMER_ID, id);
+  }
+
+  getCustomerId() async {
+    return await preferences!.getInt(CUSTOMER_ID);
   }
 }
